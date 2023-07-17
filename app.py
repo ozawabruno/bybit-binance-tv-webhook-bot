@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, jsonify
 from pybit import HTTP
 import time
 import ccxt
-from binanceFutures import Bot
 
 def validate_bybit_api_key(session):
     try:
@@ -13,13 +12,6 @@ def validate_bybit_api_key(session):
         print("Bybit API key validation failed:", str(e))
         return False
 
-def validate_binance_api_key(exchange):
-    try:
-        result = exchange.fetch_balance()
-        return True
-    except Exception as e:
-        print("Binance API key validation failed:", str(e))
-        return False
 
 app = Flask(__name__)
 
@@ -45,25 +37,6 @@ if 'BYBIT' in config['EXCHANGES']:
         api_secret=config['EXCHANGES']['BYBIT']['API_SECRET']
     )
 
-use_binance_futures = False
-if 'BINANCE-FUTURES' in config['EXCHANGES']:
-    if config['EXCHANGES']['BINANCE-FUTURES']['ENABLED']:
-        print("Binance is enabled!")
-        use_binance_futures = True
-
-        exchange = ccxt.binance({
-        'apiKey': config['EXCHANGES']['BINANCE-FUTURES']['API_KEY'],
-        'secret': config['EXCHANGES']['BINANCE-FUTURES']['API_SECRET'],
-        'options': {
-            'defaultType': 'future',
-            },
-        'urls': {
-            'api': {
-                'public': 'https://testnet.binancefuture.com/fapi/v1',
-                'private': 'https://testnet.binancefuture.com/fapi/v1',
-            }, }
-        })
-        exchange.set_sandbox_mode(True)
 
 # Validate Bybit API key
 if use_bybit:
@@ -178,25 +151,8 @@ def webhook():
             "message": "Bybit Webhook Received!"
         }
     ##############################################################################
-    #             Binance Futures
-    ##############################################################################
-        if data['exchange'] == 'binance-futures':
-            if use_binance_futures:
-                bot = Bot()
-                bot.run(data)
-                return {
-                    "status": "success",
-                    "message": "Binance Futures Webhook Received!"
-                }
 
-        else:
-            print("Invalid Exchange, Please Try Again!")
-            return {
-                "status": "error",
-                "message": "Invalid Exchange, Please Try Again!"
-            }
 
-    if __name__ == '__main__':
-        app.run(debug=False)
-
+if __name__ == '__main__':
+    app.run(debug=False)
 
