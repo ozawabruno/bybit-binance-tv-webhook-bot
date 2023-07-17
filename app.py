@@ -44,12 +44,6 @@ if use_bybit:
         print("Invalid Bybit API key.")
         use_bybit = False
 
-# Validate Binance Futures API key
-if use_binance_futures:
-    if not validate_binance_api_key(exchange):
-        print("Invalid Binance Futures API key.")
-        use_binance_futures = False
-
 @app.route('/')
 def index():
     return {'message': 'Server is running!'}
