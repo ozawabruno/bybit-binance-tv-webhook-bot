@@ -5,12 +5,6 @@
              "API_KEY": "9B6RPjtjSLmadZZ1YU",
              "API_SECRET": "thWTbk72dgT9OyILBpw146y09rBzKeTXbpeg",
              "ENABLED": true
-        },
-        "BINANCE-FUTURES": {
-             "API_KEY": "api-key-goes-here",
-             "API_SECRET": "api-secret-goes-here",
-             "ENABLED": false,
-             "TESTNET": false
         }
    }
 
