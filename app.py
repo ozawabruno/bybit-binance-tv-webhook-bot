@@ -180,23 +180,23 @@ def webhook():
     ##############################################################################
     #             Binance Futures
     ##############################################################################
-    if data['exchange'] == 'binance-futures':
-        if use_binance_futures:
-            bot = Bot()
-            bot.run(data)
+        if data['exchange'] == 'binance-futures':
+            if use_binance_futures:
+                bot = Bot()
+                bot.run(data)
+                return {
+                    "status": "success",
+                    "message": "Binance Futures Webhook Received!"
+                }
+
+        else:
+            print("Invalid Exchange, Please Try Again!")
             return {
-                "status": "success",
-                "message": "Binance Futures Webhook Received!"
+                "status": "error",
+                "message": "Invalid Exchange, Please Try Again!"
             }
 
-    else:
-        print("Invalid Exchange, Please Try Again!")
-        return {
-            "status": "error",
-            "message": "Invalid Exchange, Please Try Again!"
-        }
-
-if __name__ == '__main__':
-    app.run(debug=False)
+    if __name__ == '__main__':
+        app.run(debug=False)
 
 
